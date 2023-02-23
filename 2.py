@@ -19,7 +19,7 @@ def extract_data(file):
             if datetime:
                 finalDate = datetime.group()
     if file is not None:
-        st.warning("The uploaded file is.", file)
+        print("The uploaded file is.", file, flush=True)
         
         file = BytesIO(file.read())
         if file.getvalue():
