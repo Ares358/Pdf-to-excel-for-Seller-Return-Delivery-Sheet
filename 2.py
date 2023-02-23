@@ -11,6 +11,7 @@ def extract_data(file):
 #     file2 = BytesIO(file.read())
     with pdfplumber.open(file) as pdf:
         # Loop through all the pages in the PDF
+        print("In1", flush=True)
         for page in pdf.pages:
             # Extract text from the page
             text = page.extract_text()
@@ -55,10 +56,10 @@ st.title("PDF Data Extraction")
 # File uploader
 file = st.file_uploader("Upload a PDF file", type="pdf")
 # file = BytesIO(file.read())
-df = extract_data(file)
 
 if file is not None:
     # Extract data and display in a table
+    df = extract_data(file)
     st.write(df)
 
     # Download button for Excel file
