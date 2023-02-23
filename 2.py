@@ -21,12 +21,12 @@ def extract_data(file):
     if file is not None:
         print("The uploaded file is.", file, flush=True)
         
-        file = BytesIO(file.read())
-        print("The converted file is.", file, flush=True)
+        file1 = BytesIO(file.read())
+        print("The converted file is.", file1, flush=True)
         
-        if file.getvalue():
+        if file1.getvalue():
             # Use tabula-py to extract tables from the PDF file
-            table = tb.read_pdf(file, pages='all')
+            table = tb.read_pdf(file1, pages='all')
         else:
             st.warning("The uploaded file is empty.")
     else:
