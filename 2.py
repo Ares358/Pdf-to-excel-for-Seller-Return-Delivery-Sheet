@@ -11,7 +11,6 @@ def extract_data(file):
 #     file2 = BytesIO(file.read())
     with pdfplumber.open(file) as pdf:
         # Loop through all the pages in the PDF
-        print("In1", flush=True)
         for page in pdf.pages:
             # Extract text from the page
             text = page.extract_text()
@@ -19,23 +18,12 @@ def extract_data(file):
             datetime = re.search(datetime_regex, text)
             if datetime:
                 finalDate = datetime.group()
-    if file is not None:
-        print("The uploaded file is.", file, flush=True)
-        
-        file1 = BytesIO(file.read())
-        file1.seek(0)
-        print("The converted file is.", file1.getvalue(), flush=True)
-        
-        if file1.getvalue():
-            # Use tabula-py to extract tables from the PDF file
-            table = tb.read_pdf(file1, pages='all')
-        else:
-            st.warning("The uploaded file is empty.")
-    else:
-        st.warning("The input file is empty.")
-        
+    print("In1",finalDate, flush=True)
+    
     # csv file
-    csv_table = tb.convert_into(file, 'pdf_convert.csv', output_format='csv', pages='all')
+    table = tb.read_pdf(file, pages='all')
+    
+    #csv_table = tb.convert_into(file, 'pdf_convert.csv', output_format='csv', pages='all')
 
     # for excel extraction, we have to export the data to the dataframe
     # Select only the columns you need
