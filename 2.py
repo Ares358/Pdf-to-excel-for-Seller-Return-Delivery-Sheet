@@ -8,7 +8,7 @@ import base64
 
 def extract_data(file):
     datetime_regex = r"\b(\d{1,2}\s+\w+,\s+\d{4})\b"
-    file = BytesIO(file.read())
+#     file = BytesIO(file.read())
     with pdfplumber.open(file) as pdf:
         # Loop through all the pages in the PDF
         for page in pdf.pages:
@@ -43,10 +43,13 @@ st.title("PDF Data Extraction")
 
 # File uploader
 file = st.file_uploader("Upload a PDF file", type="pdf")
-file = BytesIO(file.read())
+# file = BytesIO(file.read())
 if file is not None:
     # Extract data and display in a table
-    df = extract_data(file)
+    try:
+        df = extract_data(file)
+    except Exception as e:
+        print("Error is ", e, file)
     st.write(df)
 
     # Download button for Excel file
