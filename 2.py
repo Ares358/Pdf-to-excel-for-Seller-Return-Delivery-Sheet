@@ -46,10 +46,8 @@ file = st.file_uploader("Upload a PDF file", type="pdf")
 # file = BytesIO(file.read())
 if file is not None:
     # Extract data and display in a table
-    try:
-        df = extract_data(file)
-    except Exception as e:
-        print("Error is ", e, file)
+    print(file)
+    df = extract_data(file)
     st.write(df)
 
     # Download button for Excel file
