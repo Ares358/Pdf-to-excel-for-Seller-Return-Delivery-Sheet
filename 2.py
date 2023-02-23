@@ -18,7 +18,7 @@ def extract_data(file):
             datetime = re.search(datetime_regex, text)
             if datetime:
                 finalDate = datetime.group()
-    file = BytesIO(file.read())
+#     file = BytesIO(file.read())
     table = tb.read_pdf(file, pages='all')
 
     # csv file
@@ -43,7 +43,7 @@ st.title("PDF Data Extraction")
 
 # File uploader
 file = st.file_uploader("Upload a PDF file", type="pdf")
-# file = BytesIO(file.read())
+file = BytesIO(file.read())
 if file is not None:
     # Extract data and display in a table
     print(file)
