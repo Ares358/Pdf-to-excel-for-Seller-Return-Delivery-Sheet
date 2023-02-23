@@ -21,7 +21,7 @@ def extract_data(file):
     print("In1",finalDate, flush=True)
     
     # csv file
-    file = file.seek(0)
+    file.seek(0)
     table = tb.read_pdf(file, pages='all')
     
     #csv_table = tb.convert_into(file, 'pdf_convert.csv', output_format='csv', pages='all')
