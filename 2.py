@@ -54,11 +54,11 @@ st.title("PDF Data Extraction")
 
 # File uploader
 file = st.file_uploader("Upload a PDF file", type="pdf")
-print(file)
 # file = BytesIO(file.read())
+df = extract_data(file)
+
 if file is not None:
     # Extract data and display in a table
-    df = extract_data(file)
     st.write(df)
 
     # Download button for Excel file
