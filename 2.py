@@ -19,6 +19,8 @@ def extract_data(file):
             if datetime:
                 finalDate = datetime.group()
     if file is not None:
+        st.warning("The uploaded file is.", file)
+        
         file = BytesIO(file.read())
         if file.getvalue():
             # Use tabula-py to extract tables from the PDF file
