@@ -18,13 +18,16 @@ def extract_data(file):
             datetime = re.search(datetime_regex, text)
             if datetime:
                 finalDate = datetime.group()
-    file = BytesIO(file.read())
-    if file.getvalue():
-        # Use tabula-py to extract tables from the PDF file
-        table = tb.read_pdf(file, pages='all')
+    if file is not None:
+        file = BytesIO(file.read())
+        if file.getvalue():
+            # Use tabula-py to extract tables from the PDF file
+            table = tb.read_pdf(file, pages='all')
+        else:
+            st.warning("The uploaded file is empty.")
     else:
-        st.warning("The uploaded file is empty.")
-
+        st.warning("The input file is empty.")
+        
     # csv file
     csv_table = tb.convert_into(file, 'pdf_convert.csv', output_format='csv', pages='all')
 
