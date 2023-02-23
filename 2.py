@@ -22,6 +22,8 @@ def extract_data(file):
         print("The uploaded file is.", file, flush=True)
         
         file = BytesIO(file.read())
+        print("The converted file is.", file, flush=True)
+        
         if file.getvalue():
             # Use tabula-py to extract tables from the PDF file
             table = tb.read_pdf(file, pages='all')
