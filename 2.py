@@ -8,8 +8,8 @@ import base64
 
 def extract_data(file):
     datetime_regex = r"\b(\d{1,2}\s+\w+,\s+\d{4})\b"
-    
-    with pdfplumber.open(file) as pdf:
+    file2 = BytesIO(file.read())
+    with pdfplumber.open(file2) as pdf:
         # Loop through all the pages in the PDF
         for page in pdf.pages:
             # Extract text from the page
