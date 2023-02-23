@@ -49,6 +49,7 @@ file = st.file_uploader("Upload a PDF file", type="pdf")
 
 if file is not None:
     # Extract data and display in a table
+    file.seek(0)
     df = extract_data(file)
     st.write(df)
 
