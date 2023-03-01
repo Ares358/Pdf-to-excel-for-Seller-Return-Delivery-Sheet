@@ -6,3 +6,4 @@ pdfreader==0.1.12
 streamlit==1.17.0
 pypdf2==1.26.0
 camelot-py
+opencv-python
