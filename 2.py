@@ -6,6 +6,8 @@ import base64
 from PyPDF2 import PdfFileReader
 import camelot as cam
 import pdfplumber
+from ctypes.util import find_library
+find_library("gs")
 def extract_data(pdf_path):
 
     def extract_date(pdf_path):
