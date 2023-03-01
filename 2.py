@@ -25,7 +25,8 @@ def extract_data(pdf_path):
     finalDate = extract_date(pdf_path)
 
     # Get the total number of pages in the PDF
-    total_pages = len(cam.read_pdf(pdf_path, pages="all"))
+    buffer_reader = io.BytesIO(pdf_path.read())
+    total_pages = len(cam.read_pdf(buffer_reader, pages="all"))
 
     # Initialize an empty list to store the tables
     all_tables = []
