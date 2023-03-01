@@ -4,12 +4,13 @@ import re
 from io import BytesIO
 import base64
 from PyPDF2 import PdfFileReader
+import camelot as cam
+import pdfplumber
+def extract_data(pdf_path):
 
-def extract_data(file):
-
-    def extract_date(file):
+    def extract_date(pdf_path):
         datetime_regex = r"\b(\d{1,2}\s+\w+,\s+\d{4})\b"
-        with pdfplumber.open(file) as pdf:
+        with pdfplumber.open(pdf_path) as pdf:
             # Loop through all the pages in the PDF
             for page in pdf.pages:
                 # Extract text from the page
