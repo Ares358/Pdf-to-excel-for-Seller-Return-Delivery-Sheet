@@ -6,35 +6,42 @@ import base64
 from PyPDF2 import PdfFileReader
 
 def extract_data(file):
-    datetime_regex = r"\b(\d{1,2}\s+\w+,\s+\d{4})\b"
-    # read the PDF file using PyPDF2
-    pdf = PdfFileReader(file)
-    # extract text from all the pages
-    text = ""
-    for i in range(pdf.getNumPages()):
-        page = pdf.getPage(i)
-        text += page.extractText()
-    # Extract datetime from the page and write to the Excel sheet
-    datetime = re.search(datetime_regex, text)
-    if datetime:
-        finalDate = datetime.group()
-    print("In1",finalDate, flush=True)
-    
-    # read the PDF file using PyPDF2 again to extract table data
-    pdf = PdfFileReader(file)
-    # loop through all the pages and extract table data
-    data = []
-    for i in range(pdf.getNumPages()):
-        page = pdf.getPage(i)
-        # convert the page to a dataframe using tabula-py (optional)
-        # df = tb.read_pdf(BytesIO(page.extractText().encode()), pages='all')
-        # convert the dataframe to a list of dicts
-        # data.extend(df.to_dict('records'))
-        # alternatively, you can extract table data using PyPDF2 directly (requires more custom code)
-        # ...
-    # convert the list of dicts to a dataframe
-    df = pd.DataFrame(data)
-    # extract the part in parentheses as a separate column
+
+    def extract_date(file):
+        datetime_regex = r"\b(\d{1,2}\s+\w+,\s+\d{4})\b"
+        with pdfplumber.open(file) as pdf:
+            # Loop through all the pages in the PDF
+            for page in pdf.pages:
+                # Extract text from the page
+                text = page.extract_text()
+                # Extract datetime from the page and write to the Excel sheet
+                datetime = re.search(datetime_regex, text)
+                if datetime:
+                    finalDate = datetime.group()
+        return finalDate
+
+    # Call the extract_data function to extract the date from the PDF
+    finalDate = extract_date(pdf_path)
+
+    # Get the total number of pages in the PDF
+    total_pages = len(cam.read_pdf(pdf_path, pages="all"))
+
+    # Initialize an empty list to store the tables
+    all_tables = []
+
+    # Loop through each page and extract the tables
+    for page in range(1, total_pages+1):
+        tables = cam.read_pdf(pdf_path, pages=str(page))
+        all_tables.extend(tables)
+
+    # Concatenate all the tables into one dataframe
+    # df = pd.concat([table.df for table in all_tables])
+    df = pd.concat([table.df.iloc[1:] for table in all_tables])
+
+    # Select the columns you want to keep and rename them
+    df = df.drop([0,3], axis=1) # Remove columns 0 and 3
+    print(df)
+    df = df.rename(columns={1: "AWB Number", 2: "COID", 4: "Remarks"}) # Rename columns 1, 2, and 4
     df['AWB Number2'] = df['AWB Number'].str.extract(r'\((.*)\)')
     df['Order ID1'] = df['COID'].str.extract(r'(.*)_\d+_\w+$')
     df = df[['AWB Number', 'AWB Number2', 'Order ID1', 'Remarks']]
@@ -42,6 +49,9 @@ def extract_data(file):
     df['AWB Number'] = df['AWB Number1'].str.extract(r'^(\S+)')
     df['Date'] = finalDate
     df = df[['AWB Number', 'AWB Number2', 'Order ID', 'Remarks', 'Date']]
+
+    # df.insert(1, "AWB Number2", "") # Add new "AWB Number2" column
+    df['Date'] = finalDate # Add finalDate to new "Date" column
     return df
 
 st.title("PDF Data Extraction")
