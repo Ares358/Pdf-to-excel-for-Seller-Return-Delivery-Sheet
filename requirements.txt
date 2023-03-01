@@ -5,4 +5,4 @@ pdfplumber==0.8.0
 pdfreader==0.1.12
 streamlit==1.17.0
 pypdf2==1.26.0
-
+camelot
