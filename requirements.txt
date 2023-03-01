@@ -9,4 +9,3 @@ camelot-py
 opencv-python-headless
 python3-ghostscript
 ghostscript 
-python3-tk
