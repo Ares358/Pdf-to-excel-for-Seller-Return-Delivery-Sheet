@@ -7,5 +7,4 @@ streamlit==1.17.0
 pypdf2==1.26.0
 camelot-py
 opencv-python-headless
-python3-ghostscript
 ghostscript 
