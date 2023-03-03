@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
 import pdfplumber
+from io import BytesIO
 
-def pdf_to_excel(pdf_path):
-    with pdfplumber.open(pdf_path) as pdf:
+def pdf_to_excel(pdf_bytes):
+    with pdfplumber.load(pdf_bytes) as pdf:
         ddf = []
         for page in pdf.pages:
             text = page.extract_text()
@@ -43,13 +44,15 @@ uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
 if uploaded_file is not None:
     # Convert PDF to Excel
-    df = pdf_to_excel(uploaded_file)
+    df = pdf_to_excel(uploaded_file.read())
 
     # Download Excel file
+    excel_bytes = BytesIO()
+    df.to_excel(excel_bytes, index=False, header=True)
+    excel_bytes.seek(0)
     st.download_button(
         label="Download Excel file",
-        data=df.to_excel(index=False, header=True),
+        data=excel_bytes.getvalue(),
         file_name="result.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-
