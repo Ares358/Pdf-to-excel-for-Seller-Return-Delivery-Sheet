@@ -45,7 +45,7 @@ uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 
 if uploaded_file is not None:
     # Convert PDF to Excel
-    df = pdf_to_excel(uploaded_file.read())
+    df = pdf_to_excel(uploaded_file)
 
     # Download Excel file
     excel_bytes = BytesIO()
