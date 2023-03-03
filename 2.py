@@ -35,7 +35,7 @@ def pdf_to_excel(pdf_bytes):
             'Extra': 'Remarks'
         })
         result['AWB Number2'] = result['AWB Number2'].str.replace(r'\(|\)', '')
-        result['COID'] = result['COID'].str[:-5]
+        result['COID'] = result['COID'].str[:-6]
         result = result.drop("Sr No." ,axis=1)
         return result
 
