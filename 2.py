@@ -4,6 +4,7 @@ import pdfplumber
 from io import BytesIO
 
 def pdf_to_excel(pdf_bytes):
+    pdf_bytes=BytesIO(pdf_bytes.read())
     with pdfplumber.open(pdf_bytes) as pdf:
         ddf = []
         for page in pdf.pages:
